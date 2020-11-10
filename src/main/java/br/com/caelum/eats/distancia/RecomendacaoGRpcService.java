@@ -20,7 +20,7 @@ public class RecomendacaoGRpcService {
 	private String recomendacaoServiceHost;
 	private Integer recomendacaoServicePort;
 	private ManagedChannel channel;
-	//private RecomendacoesDeRestaurantesBlockingStub recomendacao;
+	private RecomendacoesDeRestaurantesBlockingStub recomendacao;
 
 	public RecomendacaoGRpcService(@Value("${recomendacoes.service.host}") String recomendacaoServiceHost,
 			@Value("${recomendacoes.service.port}") Integer recomendacaoServicePort) {
@@ -33,15 +33,15 @@ public class RecomendacaoGRpcService {
 		channel = ManagedChannelBuilder.forAddress(this.recomendacaoServiceHost, this.recomendacaoServicePort)
 				.usePlaintext().build();
 
-		//recomendacao = RecomendacoesDeRestaurantesGrpc.newBlockingStub(channel);
+		recomendacao = RecomendacoesDeRestaurantesGrpc.newBlockingStub(channel);
 	}
 
 	public List<Long> ordernarPorRecomendacoes(List<Long> idsRestaurante) {
-		//Restaurantes restaurantes = Restaurantes.newBuilder().addAllRestauranteId(idsRestaurante).build();
-		//Restaurantes restaurantesOrdenadosPorRecomendacao = recomendacao.recomendacoes(restaurantes);
-		//List<Long> restaurantesOrdenados = restaurantesOrdenadosPorRecomendacao.getRestauranteIdList();
+		Restaurantes restaurantes = Restaurantes.newBuilder().addAllRestauranteId(idsRestaurante).build();
+		Restaurantes restaurantesOrdenadosPorRecomendacao = recomendacao.recomendacoes(restaurantes);
+		List<Long> restaurantesOrdenados = restaurantesOrdenadosPorRecomendacao.getRestauranteIdList();
 
-		return null;//restaurantesOrdenados;
+		return restaurantesOrdenados;
 	}
 
 	@PreDestroy
