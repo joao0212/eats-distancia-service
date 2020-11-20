@@ -75,13 +75,11 @@ public class DistanciaService {
 	}
 
 	private BigDecimal calcularDistancia() {
-		// simulaDemora();
+		this.simularDemora();
 		return new BigDecimal(Math.random() * 15);
 	}
 
-	@SuppressWarnings("unused")
 	private void simularDemora() {
-		// simula demora de 10s a 20s
 		long demora = (long) (Math.random() * 10000 + 10000);
 		try {
 			Thread.sleep(demora);
