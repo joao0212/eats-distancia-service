@@ -23,13 +23,19 @@ public class RestauranteController {
 		this.restauranteRepository = restauranteRepository;
 	}
 
-	@PostMapping
 	ResponseEntity<Restaurante> adicionar(@RequestBody Restaurante restaurante,
 			UriComponentsBuilder uriComponentsBuilder) {
 		Restaurante restauranteSalvo = restauranteRepository.save(new Restaurante(restaurante.getCep(),
 				restaurante.getAprovado(), restaurante.getTipoDeCozinhaId(), restaurante.getIdRestaurante()));
 		URI uri = uriComponentsBuilder.path("/restaurantes/{id}").buildAndExpand(restauranteSalvo.getId()).toUri();
 		return ResponseEntity.created(uri).contentType(MediaType.APPLICATION_JSON).body(restauranteSalvo);
+	}
+
+	@PostMapping
+	Restaurante adicionarSemResponseEntity(@RequestBody Restaurante restaurante) {
+		Restaurante restauranteSalvo = restauranteRepository.save(new Restaurante(restaurante.getCep(),
+				restaurante.getAprovado(), restaurante.getTipoDeCozinhaId(), restaurante.getIdRestaurante()));
+		return restauranteSalvo;
 	}
 
 	@PutMapping("/{id}")
